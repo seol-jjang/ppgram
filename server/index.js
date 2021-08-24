@@ -1,6 +1,7 @@
 const express = require("express");
+const cookieParser = require("cookie-parser");
 const app = express();
-const port = 3000;
+const port = 5000;
 
 const config = require("./config/key");
 
@@ -15,5 +16,10 @@ mongoose
   .then(() => console.log("MongoDB Connected"))
   .catch((err) => console.log(err));
 
-app.get("/", (req, res) => res.send("hello world"));
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
+app.use(cookieParser());
+
+app.use("/api/users", require("./routes/users"));
+
 app.listen(port, () => console.log(`Example ${port}`));
